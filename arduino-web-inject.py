@@ -30,6 +30,7 @@ def stringify(code):
 def inject(file):    
     def replace(lines):
         inject_file = os.path.dirname(file) + "/" +lines.group(2)
+        print("Type: "+lines.group(3))
         code = "Problem with file: " + inject_file;
         if os.path.exists(inject_file):
             inject_file = os.path.abspath(inject_file);
@@ -46,7 +47,7 @@ def inject(file):
     return replace
 
 def parse(file):
-    pattern = r'(// @inject "([a-z./]+)"\nString ([a-z]+) =)(.*);'
+    pattern = r'(// @inject "([a-z./]+)"\nconst ([a-z ]+) ([a-z]+) =)(.*);'
     with open(file, "r") as f:
         source = f.read()                   
         change = re.sub(pattern, inject(file), source, flags = re.MULTILINE)
