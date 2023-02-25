@@ -47,7 +47,13 @@ def inject(file):
                         code = minify(code, remove_comments=True, remove_empty_space=True)            
                 code = stringify(code);
         else:
-            code = '{' + ', '.join([f'0x{ord(char):02x}' for char in code]) + '}'
+            with open(inject_file, "rb") as f:
+                bytes = []
+                byte = f.read(1)
+                while byte != b"":                    
+                    bytes.append(f'0x{ord(byte):02x}')
+                    byte = f.read(1)                
+                code = '{' + ', '.join(bytes) + '}'
         return lines.group(1) + ' ' + code + ';'
         
     return replace
