@@ -6,4 +6,4 @@ release:
 	@git push
 
 test:
-	@python build.py
+	@python arduino-web-inject.py

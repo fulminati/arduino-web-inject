@@ -1,6 +1,6 @@
 
 // @inject "tests/fixtures/style.css"
-String style = "*{counter-increment:auto}strong{font-weight:100}strong{font-weight:100}strong{font-weight:100}strong{font-weight:100}";
+String style = "Problem with file: /home/francesco/Develop/Fulminati/arduino-web-inject/tests/fixtures/tests/fixtures/style.css";
 
 
 // ciao

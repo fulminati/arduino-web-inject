@@ -27,33 +27,37 @@ def stringify(code):
     code = re.sub(r'\{\{ ([a-z]+) \}\}', r'" + \g<1> + "', code)
     return '"' + code + '"'
 
-def inject(lines):    
-    file = lines.group(2)
-    code = "Problem with file: " + file;
-    if os.path.exists(file):
-        with open(file) as f:
-            code = f.read()
-            if file.lower().endswith('.js'):                
-                code = jsmin(code)
-            elif file.lower().endswith('.css'):                
-                code = compress(code)
-            elif file.lower().endswith('.html'):                
-                code = minify(code, remove_comments=True)
-    return lines.group(1) + ' ' + stringify(code) + ';'
+def inject(file):    
+    def replace(lines):
+        inject_file = os.path.dirname(file) + "/" +lines.group(2)
+        code = "Problem with file: " + inject_file;
+        if os.path.exists(inject_file):
+            inject_file = os.path.abspath(inject_file);
+            print("Inject: " + inject_file)
+            with open(inject_file) as f:
+                code = f.read()
+                if inject_file.lower().endswith('.js'): 
+                    code = jsmin(code)
+                elif inject_file.lower().endswith('.css'): 
+                    code = compress(code)
+                elif inject_file.lower().endswith('.html'): 
+                    code = minify(code, remove_comments=True, remove_empty_space=True)
+        return lines.group(1) + ' ' + stringify(code) + ';'
+    return replace
 
 def parse(file):
     pattern = r'(// @inject "([a-z./]+)"\nString ([a-z]+) =)(.*);'
     with open(file, "r") as f:
         source = f.read()                   
-        change = re.sub(pattern, inject, source, flags = re.MULTILINE)
+        change = re.sub(pattern, inject(file), source, flags = re.MULTILINE)
+        print("Update: " + file)
         if source != change:
-            print("Update: " + file)
             with open(file, "w") as f: f.write(change)        
             with open(file + '.lock', 'a'): pass
     
 def build():
     for file in get_files():
-        parse(file)
+        parse(os.path.abspath(file))
         
 async def main():
     async for changes in awatch(watch_dir):        
@@ -66,7 +70,6 @@ async def main():
             else:                        
                 print("Change: " + file);            
                 build()
-            #print(val[0], val[1])
 
 asyncio.run(main())
 
