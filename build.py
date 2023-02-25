@@ -36,16 +36,11 @@ def build():
     for file in get_files():
         parse(file)
         
-
-build()
-
-"""
 async def main():
     async for changes in awatch(watch_dir):        
         for val in changes:
-            print(val[0], val[1])
+            build()
+            #print(val[0], val[1])
 
 asyncio.run(main())
-"""
-
 
