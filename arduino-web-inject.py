@@ -1,7 +1,7 @@
 ##
 # Arduino Web Inject
 #
-# Inject and build web files into your schetches.
+# Inject and build web files into your sketches.
 #
 # Copyright (c) 2020 Francesco Bianco <bianco@javanile.org>
 #
