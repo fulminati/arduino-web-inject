@@ -37,7 +37,7 @@ def inject(file):
             if os.path.exists(inject_file):
                 inject_file = os.path.abspath(inject_file);
                 print("Inject: " + inject_file)
-                with open(inject_file) as f:
+                with open(inject_file, "r") as f:
                     code = f.read()
                     if inject_file.lower().endswith('.js'): 
                         code = jsmin(code)
