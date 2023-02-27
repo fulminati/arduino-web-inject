@@ -1,4 +1,6 @@
 
+install:
+	@pip3 install -r requirements.txt
 
 release:
 	@git add .
@@ -6,4 +8,4 @@ release:
 	@git push
 
 test:
-	@python arduino-web-inject.py
+	@python3 arduino-web-inject.py
