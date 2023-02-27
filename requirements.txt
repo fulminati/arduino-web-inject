@@ -2,3 +2,4 @@ watchfiles
 jsmin
 csscompressor
 htmlmin
+binaryornot

@@ -1,3 +1,29 @@
+##
+# Arduino Web Inject
+#
+# Inject and build web files into your schetches.
+#
+# Copyright (c) 2020 Francesco Bianco <bianco@javanile.org>
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+##
+
 import asyncio
 import glob
 import re 
@@ -7,6 +33,7 @@ from watchfiles import awatch
 from csscompressor import compress
 from jsmin import jsmin
 from htmlmin import minify 
+from binaryornot.check import is_binary
 
 watch_dir = 'tests/fixtures'
 watch_ext = ('.cpp', '.h', '.c')
@@ -33,10 +60,18 @@ def inject(file):
         inject_type = lines.group(3);        
         code = '"Problem with file: ' + inject_file + '"';
         
-        if inject_type == "String":
-            if os.path.exists(inject_file):
-                inject_file = os.path.abspath(inject_file);
-                print("Inject: " + inject_file)
+        if os.path.exists(inject_file):            
+            inject_file = os.path.abspath(inject_file);
+            print("Inject: " + inject_file)
+            if inject_type != "String" or is_binary(inject_file):
+                with open(inject_file, "rb") as f:
+                    bytes = []
+                    byte = f.read(1)
+                    while byte != b"":                    
+                        bytes.append(f'0x{ord(byte):02x}')
+                        byte = f.read(1)                
+                    code = '{' + ', '.join(bytes) + '}'
+            else:
                 with open(inject_file, "r") as f:
                     code = f.read()
                     if inject_file.lower().endswith('.js'): 
@@ -45,15 +80,7 @@ def inject(file):
                         code = compress(code)
                     elif inject_file.lower().endswith('.html'): 
                         code = minify(code, remove_comments=True, remove_empty_space=True)            
-                code = stringify(code);
-        else:
-            with open(inject_file, "rb") as f:
-                bytes = []
-                byte = f.read(1)
-                while byte != b"":                    
-                    bytes.append(f'0x{ord(byte):02x}')
-                    byte = f.read(1)                
-                code = '{' + ', '.join(bytes) + '}'
+                    code = stringify(code);
         return lines.group(1) + ' ' + code + ';'
         
     return replace
