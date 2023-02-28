@@ -19,7 +19,7 @@ C:\Users\Sam\AppData\Local\Programs\Python\Python310\Scripts\pip install arduino
 
 
 <details>
-<summary><h3>macOS</h3></summary>
+<summary><strong>macOS</strong></summary>
 </details>
 
 
