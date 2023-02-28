@@ -2,11 +2,13 @@
 
 > Inject and build web files into your sketches.
 
-## 💾 Install
+## 💾 Installation
 
 <details>
 <summary><strong>Windows</strong></summary>
 
+### Install on Windows
+  
 This project require Python on your PC, please visit this page <https://www.python.org/downloads/windows/>, then download and install the "Windows installer (64-bit)". Keep note where Python will be installed.
 
 Open a shell and type the following command (amend path on your PC with the right username)
