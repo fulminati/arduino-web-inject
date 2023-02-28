@@ -16,4 +16,4 @@ release: pip
 	@python3 -m twine upload dist/*
 
 test:
-	@python3 arduino-web-inject.py
+	@python3 inject.py
