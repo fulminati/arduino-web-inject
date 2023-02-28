@@ -36,7 +36,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'arduino-web-inject = inject:main',
+            'arduino-web-inject = arduino_web_inject:main',
         ],
     },
 )
