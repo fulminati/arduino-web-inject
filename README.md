@@ -14,7 +14,7 @@ Arduino Web Inject is a full-written Python project, choose your OS to for detai
 
 ### Install on Windows
   
-This project require Python on your PC, please visit this page <https://www.python.org/downloads/windows/>, then download and install the "Windows installer (64-bit)". Keep note where Python will be installed.
+This project require Python on your PC, please visit this page <https://www.python.org/downloads/windows/>, then download and install the "Windows installer (64-bit)". Keep note where Python will be installed. Make sure to select the option "Add Python 3.x to PATH" during installation.
 
 Open a shell and type the following command (amend path on your PC with the right username)
 
@@ -41,6 +41,8 @@ Open a shell and type the following command (amend path on your PC with the righ
 <details>
 <summary><strong>Ubuntu/Debian</strong></summary>
 
+### Install on Ubuntu/Debian
+
 ```shell
 $ sudo apt install python
 ```
@@ -56,6 +58,8 @@ $ pip install arduino-web-inject
 <details>
 <summary><strong>Linux</strong></summary>
 
+### Install on Linux
+    
 Found best Python package fit to your needs here <https://www.python.org/downloads/source/>, then use `pip` to install `arduino-web-inject` on your PC.
 
 ```shell
@@ -82,7 +86,7 @@ On **Windows** (with `cmd.exe`)
 C:\Users\Sam\AppData\Local\Programs\Python\Python310\Scripts\arduino-web-inject C:\Users\SamSepiol\OneDrive\Documents\Arduino
 ```
 
-On **macOS**
+On **macOS** (with `Terminal`)
 
 ```shell
 % arduino-web-inject /Users/SamSepiol/Documents/Arduino
@@ -109,3 +113,6 @@ void setup() {
 
 Use the `// @inject "filename.html"` our tool automatically load and replace the HTML into the string constant declared below the comment
 
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE) for more information.
