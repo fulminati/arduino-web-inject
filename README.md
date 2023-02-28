@@ -17,10 +17,21 @@ C:\Users\Sam\AppData\Local\Programs\Python\Python310\Scripts\pip install arduino
 
 ### Ubuntu/Debian
 
+```shell
+$ sudo apt install python
+```
+
+```shell
+$ pip install arduino-web-inject
+```
 
 ### Linux
 
+Found best Python package fit to your needs here <https://www.python.org/downloads/source/>, then use `pip` to install `arduino-web-inject` on your PC.
 
+```shell
+$ pip install arduino-web-inject
+```
 
 ## 🛠️ Usage
 
