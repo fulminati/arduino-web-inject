@@ -4,7 +4,7 @@
 
 ### Windows 
 
-This project require Python on your PC, please visit this page <https://www.python.org/downloads/windows/>, then download and install the "Windows installer (64-bit)" 
+This project require Python on your PC, please visit this page <https://www.python.org/downloads/windows/>, then download and install the "Windows installer (64-bit)". Keep note where Python will be installed.
 
 Open a shell and type the following command (amend path on your PC with the right username)
 
