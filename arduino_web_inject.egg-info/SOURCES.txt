@@ -1,0 +1,9 @@
+LICENSE
+README.md
+setup.py
+arduino_web_inject.egg-info/PKG-INFO
+arduino_web_inject.egg-info/SOURCES.txt
+arduino_web_inject.egg-info/dependency_links.txt
+arduino_web_inject.egg-info/entry_points.txt
+arduino_web_inject.egg-info/top_level.txt
+arduino_web_inject.egg-info/zip-safe

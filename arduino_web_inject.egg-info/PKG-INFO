@@ -1,0 +1,20 @@
+Metadata-Version: 2.1
+Name: arduino-web-inject
+Version: 0.1.12
+Summary: Inject and build web files into your sketches
+Home-page: https://github.com/fulminati/arduino-web-inject
+Download-URL: https://github.com/fulminati/arduino-web-inject
+Author: Francesco Bianco
+Author-email: bianco@javanile.org
+License: MIT
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3.2
+Classifier: Topic :: Text Processing :: Markup :: HTML
+License-File: LICENSE
+
+# web-tools
