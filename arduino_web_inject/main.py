@@ -58,7 +58,7 @@ def inject(dir, parsed_file, changed_file):
     #print("-- "+parsed_file+" - "+changed_file)
     def replace(lines):
         old_code = lines.group(0)
-        inject_file = os.path.dirname(parsed_file) + "/" +lines.group(2)
+        inject_file = os.path.dirname(parsed_file) + os.sep +lines.group(2)
         inject_type = re.split(r'\W+', lines.group(3))        
         if not os.path.exists(inject_file):
             return lines.group(1) + ' ' + '"File not found: ' + inject_file + '";'
@@ -105,7 +105,7 @@ def log_inject(dir, file):
     print('Inject: ' + os.path.relpath(file, dir))
 
 def parse(dir, parsed_file, changed_file):
-    pattern = r'(// @inject "([A-Za-z0-9./-_]+)"[\t ]*[\n][\t ]*([A-Za-z0-9 ]+) ([A-Za-z0-9_]+)(\[\])? =)(.*);'
+    pattern = r'(//[ \t]*@inject "([A-Za-z0-9./-_]+)"[\t ]*[\n][\t ]*([A-Za-z0-9 ]+) ([A-Za-z0-9_]+)(\[\])? =)(.*);'
     with open(parsed_file, "r") as f:
         source = f.read()                   
         change = re.sub(pattern, inject(dir, parsed_file, changed_file), source, flags = re.MULTILINE)
