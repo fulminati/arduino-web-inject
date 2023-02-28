@@ -58,8 +58,7 @@ def inject(file):
     def replace(lines):
         inject_file = os.path.dirname(file) + "/" +lines.group(2)
         inject_type = lines.group(3);        
-        code = '"Problem with file: ' + inject_file + '"';
-        
+        code = '"Problem with file: ' + inject_file + '"';        
         if os.path.exists(inject_file):            
             inject_file = os.path.abspath(inject_file);
             print("Inject: " + inject_file)
@@ -82,7 +81,6 @@ def inject(file):
                         code = minify(code, remove_comments=True, remove_empty_space=True)            
                     code = stringify(code);
         return lines.group(1) + ' ' + code + ';'
-        
     return replace
 
 def parse(file):
@@ -99,7 +97,7 @@ def build():
     for file in get_files():
         parse(os.path.abspath(file))
         
-async def main():
+async def watch():
     async for changes in awatch(watch_dir):        
         for val in changes:
             file = val[1];
@@ -111,5 +109,8 @@ async def main():
                 print("Change: " + file);            
                 build()
 
-asyncio.run(main())
+def main():
+    asyncio.run(watch())
 
+if __name__ == '__main__':
+    main()
