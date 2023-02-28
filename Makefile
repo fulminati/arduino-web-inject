@@ -30,3 +30,5 @@ test:
 
 test-not-a-dir:
 	@python3 arduino_web_inject.py tests/this-is-not-a-dir
+
+examples:
