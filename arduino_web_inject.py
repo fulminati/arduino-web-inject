@@ -55,7 +55,8 @@ def stringify(code):
     code = re.sub(r'\{\{[ \t]*([a-z]+)[ \t]*\}\}', r'" + \g<1> + "', code)
     return '"' + code + '"'
 
-def inject(file):    
+def inject(file, changed_file):
+    print("-- "+file+" - "+changed_file)
     def replace(lines):
         inject_file = os.path.dirname(file) + "/" +lines.group(2)
         inject_type = lines.group(3);        
@@ -64,39 +65,51 @@ def inject(file):
             inject_file = os.path.abspath(inject_file);
             print("Inject: " + inject_file)
             if inject_type != "String" or is_binary(inject_file):
-                with open(inject_file, "rb") as f:
-                    bytes = []
-                    byte = f.read(1)
-                    while byte != b"":                    
-                        bytes.append(f'0x{ord(byte):02x}')
-                        byte = f.read(1)                
-                    code = '{' + ', '.join(bytes) + '}'
+                code = inject_as_binary(inject_file, code)
             else:
-                with open(inject_file, "r") as f:
-                    code = f.read()
-                    if inject_file.lower().endswith('.js'): 
-                        code = jsmin(code)
-                    elif inject_file.lower().endswith('.css'): 
-                        code = compress(code)
-                    elif inject_file.lower().endswith('.html'): 
-                        code = minify(code, remove_comments=True, remove_empty_space=True)            
-                    code = stringify(code);
+                code = inject_as_string(inject_file, code)
         return lines.group(1) + ' ' + code + ';'
     return replace
 
-def parse(file):
-    pattern = r'(// @inject "([A-Za-z0-9./-_]+)"\nconst ([A-Za-z0-9 ]+) ([A-Za-z0-9]+)(\[\])? =)(.*);'
+def inject_as_binary(file, code):
+    with open(file, "rb") as f:
+        bytes = []
+        byte = f.read(1)
+        while byte != b"":
+            bytes.append(f'0x{ord(byte):02x}')
+            byte = f.read(1)
+        code = '{' + ', '.join(bytes) + '}'
+    return code
+
+def inject_as_string(file, code):
     with open(file, "r") as f:
+        code = f.read()
+        if file.lower().endswith('.js'):
+            code = jsmin(code)
+        elif file.lower().endswith('.css'):
+            code = compress(code)
+        elif file.lower().endswith('.html'):
+            code = minify(code, remove_comments=True, remove_empty_space=True)
+        code = stringify(code);
+    return code
+
+def parse(parsed_file, changed_file):
+    pattern = r'(// @inject "([A-Za-z0-9./-_]+)"\nconst ([A-Za-z0-9 ]+) ([A-Za-z0-9]+)(\[\])? =)(.*);'
+    with open(parsed_file, "r") as f:
         source = f.read()                   
-        change = re.sub(pattern, inject(file), source, flags = re.MULTILINE)
-        print("Update: " + file)
+        change = re.sub(pattern, inject(parsed_file, changed_file), source, flags = re.MULTILINE)
         if source != change:
-            with open(file, "w") as f: f.write(change)        
+            print("Update: " + file)
+            with open(file, "w") as f: f.write(change)
             with open(file + '.lock', 'a'): pass
     
-def build():
-    for file in get_files():
-        parse(os.path.abspath(file))
+def build(changed_file):
+    all_files = get_files()
+    if changed_file in all_files:
+        parse(changed_file, changed_file)
+    else:
+        for file in all_files:
+            parse(os.path.abspath(file), changed_file)
         
 async def watch(dir):
     try: 
@@ -109,9 +122,9 @@ async def watch(dir):
                     os.remove(file + '.lock')
                 else:                        
                     print("Change: " + file);            
-                    build()
+                    build(file)
     except RuntimeError:
-        print("hears^")
+        print("heers^")
 
 def main():
         if sys.argv[1]:

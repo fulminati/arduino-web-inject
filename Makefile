@@ -13,11 +13,13 @@ pip:
 	@pip3 install tqdm
 	@pip3 install --user --upgrade twine
 
-release: 
-	@sed -i "s/__version__ =.*/__version__ = '$$(make -s bump-version)'/" arduino_web_inject.py
+push:
 	@git add .
 	@git commit -am "Release"
 	@git push
+
+release: push
+	@sed -i "s/__version__ =.*/__version__ = '$$(make -s bump-version)'/" arduino_web_inject.py
 	@rm -rf build/ dist/ *egg* **.pyc __pycache__
 	@python3 setup.py bdist_wheel --universal
 	@python3 -m twine upload dist/*
