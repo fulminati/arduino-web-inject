@@ -57,7 +57,7 @@ Open a shell and type the following command
 $ arduino-web-inject MY_SKETCHES_DIRECTORY
 ```
 
-Replace `MY_SKETCHES_DIRECTORY` with you source code directory. For instances
+Replace `MY_SKETCHES_DIRECTORY` with your source code directory. For instances
 
 On Windows (with `cmd.exe`)
 
