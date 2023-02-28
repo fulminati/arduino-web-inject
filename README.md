@@ -35,5 +35,5 @@ Replace `MY_SKETCHES_DIRECTORY` with you source code directory. For instances
 On Windows (with `cmd.exe`)
 
 ```
-C:\Users\SamSepiol\AppData\Local\Programs\Python\Python310\Scripts\arduino-web-inject C:\Users\SamSepiol\OneDrive\Documents\Arduino
+C:\Users\Sam\AppData\Local\Programs\Python\Python310\Scripts\arduino-web-inject C:\Users\SamSepiol\OneDrive\Documents\Arduino
 ```
