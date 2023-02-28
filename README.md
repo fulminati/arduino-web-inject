@@ -145,6 +145,10 @@ void setup() {
 
 When you use the `// @inject "filename.js"` our tool automatically load and replace the JavaScript code into the string constant declared below the comment
 
+### Where place my web files
+
+The `@inject` comment looks for files inside your sketeches with a relative path starting from the source file (e.g. Arduino/Blink/Blink.ino), we suggest to use a specific sub-directory as example `web/` and place all your web files inside. See [examples](https://github.com/fulminati/arduino-web-inject/blob/main/examples/WiFi/WiFi.ino#L22) for inspirations.
+
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE) for more information.
