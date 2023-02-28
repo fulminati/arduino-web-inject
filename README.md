@@ -9,7 +9,7 @@ This project require Python on your PC, please visit this page <https://www.pyth
 Open a shell and type the following command (amend path on your PC with the right username)
 
 ```
-C:\Users\SamSepiol\AppData\Local\Programs\Python\Python310\Scripts\pip install arduino-web-inject
+C:\Users\Sam\AppData\Local\Programs\Python\Python310\Scripts\pip install arduino-web-inject
 ```
 
 ### macOS
