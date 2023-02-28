@@ -45,5 +45,5 @@ setup(
         "csscompressor",
         "htmlmin",
         "binaryornot",
-    ],
+    ]
 )
