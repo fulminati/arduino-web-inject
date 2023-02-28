@@ -4,7 +4,7 @@
 
 > Inject and build web files into your sketches.
 
-Arduino Web Inject fills your sketches (*.ino) files with HTML/CSS/JS code from files from your PC. This is useful to work with Web Server and create complex web app around Arduino platform.
+Arduino Web Inject fills your sketches (*.ino) files with HTML/CSS/JS code from files on your PC. This is useful to work with Web Server and create complex web app around Arduino platform.
 
 ## 💾 Installation
 
