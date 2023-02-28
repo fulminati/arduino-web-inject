@@ -5,7 +5,7 @@
 ## 💾 Install
 
 <details>
-  <summary>### Windows</summary>
+  <summary><h3>Windows</h3></summary>
 ### Windows 
 
 This project require Python on your PC, please visit this page <https://www.python.org/downloads/windows/>, then download and install the "Windows installer (64-bit)". Keep note where Python will be installed.
