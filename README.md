@@ -4,6 +4,8 @@
 
 > Inject and build web files into your sketches.
 
+Arduino Web Inject fills your sketches (*.ino) files with HTML/CSS/JS code from files from your PC. This is useful to work with Web Server and create complex web app around Arduino platform.
+
 ## 💾 Installation
 
 Arduino Web Inject is a full-written Python project, choose your OS to for detailed installation instructions
@@ -147,11 +149,18 @@ When you use the `// @inject "filename.js"` our tool automatically load and repl
 
 ### Where place my web files?
 
-The `@inject` comment looks for files inside your sketeches with a relative path starting from the source file (e.g. Arduino/Blink/Blink.ino), we suggest to use a specific sub-directory as example `web/` and place all your web files inside. See [examples](https://github.com/fulminati/arduino-web-inject/blob/main/examples/WiFi/WiFi.ino#L22) for inspirations.
+The `@inject` comment looks for files inside your sketeches with a relative path starting from the source file (e.g. Arduino/Blink/Blink.ino), we suggest to use a specific sub-directory as example `web/` and place all your web files inside it. See [examples](https://github.com/fulminati/arduino-web-inject/blob/main/examples/WiFi/WiFi.ino#L22) for inspirations.
 
 ### How edit my web files?
 
 To modify your web files, you can use your preferred IDE such as VSCode or WebStorm, but also Notepad++. When our tool detects a change in your web files, it will automatically update your Arduino files.
+
+### Why I need this?
+
+This is a list of benefit of using Arduino Web Inject:
+
+* The HTML/CSS/JS code will be minified and cleaned of comments before being loaded into Arduino. This will allow for significant space savings.
+* 
 
 ## License
 
