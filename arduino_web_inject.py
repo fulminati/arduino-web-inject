@@ -55,20 +55,28 @@ def stringify(code):
     code = re.sub(r'\{\{[ \t]*([a-z]+)[ \t]*\}\}', r'" + \g<1> + "', code)
     return '"' + code + '"'
 
-def inject(file, changed_file):
-    print("-- "+file+" - "+changed_file)
+def inject(parsed_file, changed_file):
+    print("-- "+parsed_file+" - "+changed_file)
     def replace(lines):
-        inject_file = os.path.dirname(file) + "/" +lines.group(2)
+        old_code = lines.group(0)
+        inject_file = os.path.dirname(parsed_file) + "/" +lines.group(2)
         inject_type = lines.group(3);        
         code = '"Problem with file: ' + inject_file + '"';        
         if os.path.exists(inject_file):            
             inject_file = os.path.abspath(inject_file);
-            print("Inject: " + inject_file)
-            if inject_type != "String" or is_binary(inject_file):
-                code = inject_as_binary(inject_file, code)
+            if (parsed_file == changed_file) or (inject_file != changed_file):
+                if inject_type != "String" or is_binary(inject_file):
+                    code = inject_as_binary(inject_file, code)
+                else:
+                    code = inject_as_string(inject_file, code)
             else:
-                code = inject_as_string(inject_file, code)
-        return lines.group(1) + ' ' + code + ';'
+               return old_code
+        new_code = lines.group(1) + ' ' + code + ';'
+        if new_code != old_code:
+            print("Inject: " + inject_file)
+            print("Old: "+old_code)
+            print("New: "+new_code)
+        return new_code
     return replace
 
 def inject_as_binary(file, code):
@@ -99,9 +107,9 @@ def parse(parsed_file, changed_file):
         source = f.read()                   
         change = re.sub(pattern, inject(parsed_file, changed_file), source, flags = re.MULTILINE)
         if source != change:
-            print("Update: " + file)
-            with open(file, "w") as f: f.write(change)
-            with open(file + '.lock', 'a'): pass
+            print("Update: " + parsed_file)
+            with open(parsed_file, "w") as f: f.write(change)
+            with open(parsed_file + '.lock', 'a'): pass
     
 def build(changed_file):
     all_files = get_files()
