@@ -145,9 +145,13 @@ void setup() {
 
 When you use the `// @inject "filename.js"` our tool automatically load and replace the JavaScript code into the string constant declared below the comment
 
-### Where place my web files
+### Where place my web files?
 
 The `@inject` comment looks for files inside your sketeches with a relative path starting from the source file (e.g. Arduino/Blink/Blink.ino), we suggest to use a specific sub-directory as example `web/` and place all your web files inside. See [examples](https://github.com/fulminati/arduino-web-inject/blob/main/examples/WiFi/WiFi.ino#L22) for inspirations.
+
+### How edit my web files?
+
+To modify your web files, you can use your preferred IDE such as VSCode or WebStorm, but also Notepad++. When our tool detects a change in your web files, it will automatically update your Arduino files.
 
 ## License
 
