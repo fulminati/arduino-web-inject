@@ -27,7 +27,7 @@ C:\Users\Sam\AppData\Local\Programs\Python\Python310\Scripts\pip install arduino
 Open a shell and type the following command
 
 ```shell
-arduino-web-inject MY_SKETCHES_DIRECTORY
+$ arduino-web-inject MY_SKETCHES_DIRECTORY
 ```
 
 Replace `MY_SKETCHES_DIRECTORY` with you source code directory. For instances
