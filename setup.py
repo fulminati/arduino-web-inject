@@ -1,7 +1,7 @@
 import os
 from setuptools import setup, find_packages
 
-from htmlmin import __version__
+from arduino_web_inject import __version__
 
 here = os.path.dirname(__file__)
 

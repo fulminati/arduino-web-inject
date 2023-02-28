@@ -2,12 +2,19 @@
 install:
 	@pip3 install -r requirements.txt
 
+version:
+	@grep '__version__ =' arduino_web_inject.py | sed -r 's/.*([0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*)[^0-9]*/\1/'
+
+bump-version:
+	@echo $$(make -s version | cut -d. -f1).$$(make -s version | cut -d. -f2).$$(($$(make -s version | cut -d. -f3)+1))
+	
 pip:
 	@pip3 install --upgrade pip setuptools wheel
 	@pip3 install tqdm
 	@pip3 install --user --upgrade twine
 
-release: pip
+release: 
+	@sed -i "s/__version__ =.*/__version__ = '$$(make -s bump-version)'/" arduino_web_inject.py
 	@git add .
 	@git commit -am "Release"
 	@git push
