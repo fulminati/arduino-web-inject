@@ -1,7 +1,7 @@
 import os
 from setuptools import setup, find_packages
 
-from arduino_web_inject import __version__
+from arduino_web_inject.main import __version__
 
 here = os.path.dirname(__file__)
 
@@ -22,7 +22,6 @@ setup(
     include_package_data=True,
     zip_safe=True,
     test_suite='tests.tests.suite',
-    install_requires=[],
     tests_require=[],
     classifiers=[
         "Development Status :: 4 - Beta",
@@ -36,7 +35,14 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'arduino-web-inject = arduino_web_inject:main',
+            'arduino-web-inject = arduino_web_inject.main:main',
         ],
     },
+    install_requires=[
+        "watchfiles",
+        "jsmin",
+        "csscompressor",
+        "htmlmin",
+        "binaryornot",
+    ]
 )

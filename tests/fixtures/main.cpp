@@ -1,15 +1,13 @@
 #include <Arduino.h>
 
-// @inject "page.html"
-const String page[] = "<h1>Page 0</h1><p>Hello</p><p>" + ciao + "</p><p>" + ciao + "</p><p>Hello</p>";
-
-String titolo = "Titoilo";
-
-sdsdasda
 // @inject "index.html"
-//const String paginaIndex = "<html><body><h1>" + titolo + "</h1> sad </body><br>";
-asd
-__cpp_aggregate_nsdmi
+const String page = "<html><body><h1>" + titolo + "</h1> sad </body><br>";
+
+const String titolo = "Titoilo2";
+
+// @inject "index.html"
+const String paginaIndex2 = "<html><body><h1>" + titolo + "</h1> sad </body><br>";
 
 
-
+// @inject "index.html"
+const String paginaIndex2 = "<html><body><h1>" + titolo + "</h1> sad </body><br>";
