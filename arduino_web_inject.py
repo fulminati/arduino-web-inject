@@ -56,16 +56,16 @@ def stringify(code):
     return '"' + code + '"'
 
 def inject(parsed_file, changed_file):
-    print("-- "+parsed_file+" - "+changed_file)
+    #print("-- "+parsed_file+" - "+changed_file)
     def replace(lines):
         old_code = lines.group(0)
         inject_file = os.path.dirname(parsed_file) + "/" +lines.group(2)
-        inject_type = lines.group(3);        
-        code = '"Problem with file: ' + inject_file + '"';        
-        if os.path.exists(inject_file):            
+        inject_type = re.split(r'\W+', lines.group(3))
+        code = '"Problem with file: ' + inject_file + '"';
+        if os.path.exists(inject_file):
             inject_file = os.path.abspath(inject_file);
-            if (parsed_file == changed_file) or (inject_file != changed_file):
-                if inject_type != "String" or is_binary(inject_file):
+            if (parsed_file == changed_file) or (inject_file == changed_file):
+                if "String" not in inject_type or is_binary(inject_file):
                     code = inject_as_binary(inject_file, code)
                 else:
                     code = inject_as_string(inject_file, code)
@@ -74,8 +74,8 @@ def inject(parsed_file, changed_file):
         new_code = lines.group(1) + ' ' + code + ';'
         if new_code != old_code:
             print("Inject: " + inject_file)
-            print("Old: "+old_code)
-            print("New: "+new_code)
+            #print("Old: "+old_code)
+            #print("New: "+new_code)
         return new_code
     return replace
 
@@ -102,7 +102,7 @@ def inject_as_string(file, code):
     return code
 
 def parse(parsed_file, changed_file):
-    pattern = r'(// @inject "([A-Za-z0-9./-_]+)"\nconst ([A-Za-z0-9 ]+) ([A-Za-z0-9]+)(\[\])? =)(.*);'
+    pattern = r'(// @inject "([A-Za-z0-9./-_]+)"[\t ]*[\n][\t ]*([A-Za-z0-9 ]+) ([A-Za-z0-9_]+)(\[\])? =)(.*);'
     with open(parsed_file, "r") as f:
         source = f.read()                   
         change = re.sub(pattern, inject(parsed_file, changed_file), source, flags = re.MULTILINE)
