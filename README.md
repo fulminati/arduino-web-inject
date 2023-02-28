@@ -1,6 +1,6 @@
 # Arduino Web Inject
 
-## Install
+## 💾 Install
 
 ### Windows 
 
@@ -22,7 +22,7 @@ Open a shell and type the following command
 
 
 
-## Usage
+## 🛠️ Usage
 
 Open a shell and type the following command
 
