@@ -43,10 +43,10 @@ watch_ext = ('.ino', '.cpp', '.h', '.c')
 
 ignore_ext = ('.lock')
 
-def get_files():
+def get_files(dir):
     files = []
     for ext in watch_ext:
-        pattern = watch_dir + '/**/*' + ext
+        pattern = dir + '/**/*' + ext
         files.extend(glob.glob(pattern, recursive=True))
     return files
 
@@ -55,28 +55,26 @@ def stringify(code):
     code = re.sub(r'\{\{[ \t]*([a-zA-Z_][a-zA-Z0-9_]+)[ \t]*\}\}', r'" + \g<1> + "', code)
     return '"' + code + '"'
 
-def inject(parsed_file, changed_file):
+def inject(dir, parsed_file, changed_file):
     #print("-- "+parsed_file+" - "+changed_file)
     def replace(lines):
         old_code = lines.group(0)
         inject_file = os.path.dirname(parsed_file) + "/" +lines.group(2)
-        inject_type = re.split(r'\W+', lines.group(3))
-        code = '"Problem with file: ' + inject_file + '"';
-        if os.path.exists(inject_file):
+        inject_type = re.split(r'\W+', lines.group(3))        
+        if not os.path.exists(inject_file):
+            return lines.group(1) + ' ' + '"File not found: ' + inject_file + '";'
+        else:
             inject_file = os.path.abspath(inject_file);
             if (parsed_file == changed_file) or (inject_file == changed_file):
                 if "String" not in inject_type or is_binary(inject_file):
-                    code = inject_as_binary(inject_file, code)
+                    code = inject_as_binary(inject_file, old_code)
                 else:
-                    code = inject_as_string(inject_file, code)
-            else:
-               return old_code
-        new_code = lines.group(1) + ' ' + code + ';'
-        if new_code != old_code:
-            print("Inject: " + inject_file)
-            #print("Old: "+old_code)
-            #print("New: "+new_code)
-        return new_code
+                    code = inject_as_string(inject_file, old_code)
+                new_code = lines.group(1) + ' ' + code + ';'        
+                if new_code != old_code:
+                    log_inject(dir, inject_file)                    
+                return new_code
+        return old_code                            
     return replace
 
 def inject_as_binary(file, code):
@@ -101,23 +99,30 @@ def inject_as_string(file, code):
         code = stringify(code);
     return code
 
-def parse(parsed_file, changed_file):
+def log_update(dir, file):
+    print('Update: ' + os.path.relpath(file, dir))
+
+def log_inject(dir, file):
+    print('Inject: ' + os.path.relpath(file, dir))
+
+def parse(dir, parsed_file, changed_file):
     pattern = r'(// @inject "([A-Za-z0-9./-_]+)"[\t ]*[\n][\t ]*([A-Za-z0-9 ]+) ([A-Za-z0-9_]+)(\[\])? =)(.*);'
     with open(parsed_file, "r") as f:
         source = f.read()                   
-        change = re.sub(pattern, inject(parsed_file, changed_file), source, flags = re.MULTILINE)
+        change = re.sub(pattern, inject(dir, parsed_file, changed_file), source, flags = re.MULTILINE)
         if source != change:
-            print("Update: " + parsed_file)
+            log_update(dir, parsed_file)            
             with open(parsed_file, "w") as f: f.write(change)
             with open(parsed_file + '.lock', 'a'): pass
     
-def build(changed_file):
-    all_files = get_files()
+def build(dir, changed_file):
+    all_files = get_files(dir)
     if changed_file in all_files:
-        parse(changed_file, changed_file)
+        parse(dir, changed_file, changed_file)
     else:
         for file in all_files:
-            parse(os.path.abspath(file), changed_file)
+            parsed_file = os.path.abspath(file)
+            parse(dir, parsed_file, changed_file)
         
 async def watch(dir):
     try: 
@@ -129,23 +134,23 @@ async def watch(dir):
                 elif os.path.exists(file + '.lock'):
                     os.remove(file + '.lock')
                 else:                        
-                    print("Change: " + file);            
-                    build(file)
+                    #print("Change: " + file);            
+                    build(dir, file)
     except RuntimeError:
         print("heers^")
 
 def main():
-        if sys.argv[1]:
-            watch_dir = sys.argv[1]
-        if not os.path.isdir(watch_dir):
-            print("Your input is not a directory: " + watch_dir)
-        else:
-            watch_dir = os.path.abspath(watch_dir)
-            print("Watching for changes on: " + watch_dir + "\n")
-            try:        
-                asyncio.run(watch(watch_dir))
-            except KeyboardInterrupt:            
-                sys.exit()
+    if sys.argv[1]:
+        watch_dir = sys.argv[1]
+    if not os.path.isdir(watch_dir):
+        print("Your input is not a directory: " + watch_dir)
+    else:
+        print("Watching for changes on: " + watch_dir + "\n")
+        watch_dir = os.path.abspath(watch_dir)
+        try:        
+            asyncio.run(watch(watch_dir))
+        except KeyboardInterrupt:            
+            sys.exit()
     
 if __name__ == '__main__':
     main()
