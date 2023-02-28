@@ -20,3 +20,19 @@ Open a shell and type the following command
 
 ### Linux
 
+
+
+## Usage
+
+Open a shell and type the following command
+
+```shell
+arduino-web-inject MY_SKETCHES_DIRECTORY
+```
+
+Replace `MY_SKETCHES_DIRECTORY` with you source code directory. For instances
+
+On Windows
+```
+C:\Users\SamSepiol> arduino-web-inject C:\Users\SamSepiol\OneDrive\Documents\Arduino
+```
