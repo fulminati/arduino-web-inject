@@ -36,7 +36,7 @@ from jsmin import jsmin
 from htmlmin import minify 
 from binaryornot.check import is_binary
 
-__version__ = '0.1.30'
+__version__ = '0.1.31'
 
 watch_ext = ('.ino', '.cpp', '.h', '.c')
 

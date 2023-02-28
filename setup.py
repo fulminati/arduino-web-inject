@@ -22,7 +22,6 @@ setup(
     include_package_data=True,
     zip_safe=True,
     test_suite='tests.tests.suite',
-    install_requires=[],
     tests_require=[],
     classifiers=[
         "Development Status :: 4 - Beta",
