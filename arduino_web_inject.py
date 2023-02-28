@@ -28,6 +28,7 @@ import asyncio
 import glob
 import re 
 import os
+import sys
 
 from watchfiles import awatch
 from csscompressor import compress
@@ -35,14 +36,12 @@ from jsmin import jsmin
 from htmlmin import minify 
 from binaryornot.check import is_binary
 
-__version__ = '0.1.22'
+__version__ = '0.1.23'
 
-watch_dir = 'tests/fixtures'
-watch_ext = ('.cpp', '.h', '.c')
+watch_dir = os.getcwd()
+watch_ext = ('.ino', '.cpp', '.h', '.c')
 
 ignore_ext = ('.lock')
-
-print("Start watch")
 
 def get_files():
     files = []
@@ -53,7 +52,7 @@ def get_files():
 
 def stringify(code):
     code = re.sub(r'"', r'\"', code)
-    code = re.sub(r'\{\{ ([a-z]+) \}\}', r'" + \g<1> + "', code)
+    code = re.sub(r'\{\{[ \t]*([a-z]+)[ \t]*\}\}', r'" + \g<1> + "', code)
     return '"' + code + '"'
 
 def inject(file):    
@@ -99,20 +98,33 @@ def build():
     for file in get_files():
         parse(os.path.abspath(file))
         
-async def watch():
-    async for changes in awatch(watch_dir):        
-        for val in changes:
-            file = val[1];
-            if file.lower().endswith(ignore_ext):
-                continue
-            elif os.path.exists(file + '.lock'):
-                os.remove(file + '.lock')
-            else:                        
-                print("Change: " + file);            
-                build()
+async def watch(dir):
+    try: 
+        async for changes in awatch(dir):        
+            for val in changes:
+                file = val[1];
+                if file.lower().endswith(ignore_ext):
+                    continue
+                elif os.path.exists(file + '.lock'):
+                    os.remove(file + '.lock')
+                else:                        
+                    print("Change: " + file);            
+                    build()
+    except RuntimeError:
+        print("hears^")
 
 def main():
-    asyncio.run(watch())
-
+        if sys.argv[1]:
+            watch_dir = sys.argv[1]
+        if not os.path.isdir(watch_dir):
+            print("Your input is not a directory: " + watch_dir)
+        else:
+            watch_dir = os.path.abspath(watch_dir)
+            print("Watching for changes on: " + watch_dir + "\n")
+            try:        
+                asyncio.run(watch(watch_dir))
+            except KeyboardInterrupt:            
+                sys.exit()
+    
 if __name__ == '__main__':
     main()

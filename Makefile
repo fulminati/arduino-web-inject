@@ -23,4 +23,7 @@ release:
 	@python3 -m twine upload dist/*
 
 test:
-	@python3 inject.py
+	@python3 arduino_web_inject.py tests/fixtures
+
+test-not-a-dir:
+	@python3 arduino_web_inject.py tests/this-is-not-a-dir
