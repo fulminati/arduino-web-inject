@@ -28,7 +28,10 @@ release: bump-version push
 
 test:
 	@clear
-	@python3 arduino_web_inject.py tests/fixtures
+	@python3 arduino_web_inject/main.py tests/fixtures
+
+test-not-args:
+	@python3 arduino_web_inject/main.py
 
 test-not-a-dir:
-	@python3 arduino_web_inject.py tests/this-is-not-a-dir
+	@python3 arduino_web_inject/main.py tests/this-is-not-a-dir

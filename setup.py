@@ -39,4 +39,11 @@ setup(
             'arduino-web-inject = arduino_web_inject.main:main',
         ],
     },
+    install_requires=[
+        "watchfiles",
+        "jsmin",
+        "csscompressor",
+        "htmlmin",
+        "binaryornot",
+    ],
 )

@@ -36,9 +36,8 @@ from jsmin import jsmin
 from htmlmin import minify 
 from binaryornot.check import is_binary
 
-__version__ = '0.1.28'
+__version__ = '0.1.29'
 
-watch_dir = os.getcwd()
 watch_ext = ('.ino', '.cpp', '.h', '.c')
 
 ignore_ext = ('.lock')
@@ -139,8 +138,9 @@ async def watch(dir):
     except RuntimeError:
         print("heers^")
 
-def main():
-    if sys.argv[1]:
+def main():    
+    watch_dir = os.getcwd()
+    if len(sys.argv) > 1 and sys.argv[1]:
         watch_dir = sys.argv[1]
     if not os.path.isdir(watch_dir):
         print("Your input is not a directory: " + watch_dir)
