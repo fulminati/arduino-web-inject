@@ -1,5 +1,7 @@
 # 🕸️ Arduino Web Inject
 
+[![Pylint](https://github.com/fulminati/arduino-web-inject/actions/workflows/pylint.yml/badge.svg)](https://github.com/fulminati/arduino-web-inject/actions/workflows/pylint.yml)
+
 > Inject and build web files into your sketches.
 
 ## 💾 Installation
@@ -27,6 +29,11 @@ C:\Users\Sam\AppData\Local\Programs\Python\Python310\Scripts\pip install arduino
 <summary><strong>macOS</strong></summary>
 
 ### Install on macOS
+
+This project require Python on your Mac, please visit this page <https://www.python.org/downloads/macos/>, then download and install the "macOS 64-bit universal2 installer". Keep note where Python will be installed.
+
+Open a shell and type the following command (amend path on your PC with the right username)
+
 
 </details>
 
@@ -69,21 +76,36 @@ $ arduino-web-inject MY_SKETCHES_DIRECTORY
 
 Replace `MY_SKETCHES_DIRECTORY` with your source code directory. For instances
 
-On Windows (with `cmd.exe`)
+On **Windows** (with `cmd.exe`)
 
 ```shell
 C:\Users\Sam\AppData\Local\Programs\Python\Python310\Scripts\arduino-web-inject C:\Users\SamSepiol\OneDrive\Documents\Arduino
 ```
 
-On macOS
+On **macOS**
 
 ```shell
 % arduino-web-inject /Users/SamSepiol/Documents/Arduino
 ```
 
-On Ubuntu/Debian/Linux
+On **Ubuntu/Debian/Linux**
 
 ```shell
 $ arduino-web-inject /home/SamSepiol/Arduino
 ```
+
+### Load HTML file into Arduino
+
+To load a HTML file into your project type a comment like this
+
+```cpp
+// @inject "index.html"
+const String indexPage = "...";
+
+void setup() {
+
+}
+```
+
+Use the `// @inject "filename.html"` our tool automatically load and replace the HTML into the string constant declared below the comment
 
