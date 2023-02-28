@@ -112,11 +112,10 @@ To load a HTML file into your project type a comment like this
 const String indexPage = "...";
 
 void setup() {
-
 }
 ```
 
-Use the `// @inject "filename.html"` our tool automatically load and replace the HTML into the string constant declared below the comment
+When you use the `// @inject "filename.html"` our tool automatically load and replace the HTML into the string constant declared below the comment
 
 ### Load CSS file into Arduino
 
@@ -127,11 +126,10 @@ To load a CSS file into your project type a comment like this
 const String style = "...";
 
 void setup() {
-
 }
 ```
 
-Use the `// @inject "filename.css"` our tool automatically load and replace the CSS code into the string constant declared below the comment
+When you use the `// @inject "filename.css"` our tool automatically load and replace the CSS code into the string constant declared below the comment
 
 ### Load JavaScript file into Arduino
 
@@ -142,11 +140,10 @@ To load a JS file into your project type a comment like this
 const String js = "...";
 
 void setup() {
-
 }
 ```
 
-Use the `// @inject "filename.js"` our tool automatically load and replace the JavaScript code into the string constant declared below the comment
+When you use the `// @inject "filename.js"` our tool automatically load and replace the JavaScript code into the string constant declared below the comment
 
 ## License
 
