@@ -52,7 +52,7 @@ def get_files():
 
 def stringify(code):
     code = re.sub(r'"', r'\"', code)
-    code = re.sub(r'\{\{[ \t]*([a-z]+)[ \t]*\}\}', r'" + \g<1> + "', code)
+    code = re.sub(r'\{\{[ \t]*([a-zA-Z_][a-zA-Z0-9_]+)[ \t]*\}\}', r'" + \g<1> + "', code)
     return '"' + code + '"'
 
 def inject(parsed_file, changed_file):

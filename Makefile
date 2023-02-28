@@ -25,6 +25,7 @@ release: push
 	@python3 -m twine upload dist/*
 
 test:
+	@clear
 	@python3 arduino_web_inject.py tests/fixtures
 
 test-not-a-dir:
