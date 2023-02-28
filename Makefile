@@ -3,13 +3,13 @@ install:
 	@pip3 install -r requirements.txt
 
 version:
-	@grep '__version__ =' arduino_web_inject.py | sed -r 's/.*([0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*)[^0-9]*/\1/'
+	@grep '__version__ =' arduino_web_inject/main.py | sed -r 's/.*([0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*)[^0-9]*/\1/'
 
 next-version:
 	@echo $$(make -s version | cut -d. -f1).$$(make -s version | cut -d. -f2).$$(($$(make -s version | cut -d. -f3)+1))
 
 bump-version:
-	@sed -i "s/__version__ =.*/__version__ = '$$(make -s next-version)'/" arduino_web_inject.py
+	@sed -i "s/__version__ =.*/__version__ = '$$(make -s next-version)'/" arduino_web_inject/main.py
 	
 pip:
 	@pip3 install --upgrade pip setuptools wheel
