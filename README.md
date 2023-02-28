@@ -32,10 +32,15 @@ C:\Users\Sam\AppData\Local\Programs\Python\Python310\Scripts\pip install arduino
 
 This project require Python on your Mac, please visit this page <https://www.python.org/downloads/macos/>, then download and install the "macOS 64-bit universal2 installer". Keep note where Python will be installed.
 
+> Alternativley you can use `$ brew install python@3.10`
+
 Open a shell and type the following command (amend path on your PC with the right username)
 
-
+```shell
+% pip3 install arduino-web-inject  
+```
 </details>
+
 
 
 <details>
@@ -112,6 +117,36 @@ void setup() {
 ```
 
 Use the `// @inject "filename.html"` our tool automatically load and replace the HTML into the string constant declared below the comment
+
+### Load CSS file into Arduino
+
+To load a CSS file into your project type a comment like this
+
+```cpp
+// @inject "style.css"
+const String style = "...";
+
+void setup() {
+
+}
+```
+
+Use the `// @inject "filename.css"` our tool automatically load and replace the CSS code into the string constant declared below the comment
+
+### Load JavaScript file into Arduino
+
+To load a JS file into your project type a comment like this
+
+```cpp
+// @inject "app.js"
+const String js = "...";
+
+void setup() {
+
+}
+```
+
+Use the `// @inject "filename.js"` our tool automatically load and replace the JavaScript code into the string constant declared below the comment
 
 ## License
 
