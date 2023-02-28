@@ -4,6 +4,20 @@
 
 ## 💾 Install
 
+<details>
+  <summary>### Windows</summary>
+### Windows 
+
+This project require Python on your PC, please visit this page <https://www.python.org/downloads/windows/>, then download and install the "Windows installer (64-bit)". Keep note where Python will be installed.
+
+Open a shell and type the following command (amend path on your PC with the right username)
+
+```
+C:\Users\Sam\AppData\Local\Programs\Python\Python310\Scripts\pip install arduino-web-inject
+```
+
+</details>
+
 ### Windows 
 
 This project require Python on your PC, please visit this page <https://www.python.org/downloads/windows/>, then download and install the "Windows installer (64-bit)". Keep note where Python will be installed.
