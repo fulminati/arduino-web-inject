@@ -67,8 +67,12 @@ def minify_js(code):
     return jsmin(code);
 
 def minify_script_tag(lines):
-    code = minify_js(lines.group(1))
-    if code:
+    code = minify_js(lines.group(2))
+    src = re.search('src=[A-Za-z0-9/_.-]+', lines.group(1))
+    if src is not None:
+        src = src.group(0)
+        return '<script '+ src +'>' + code + '</script>'
+    elif code:
         return '<script>' + code + '</script>'
     return ''
 
@@ -122,7 +126,7 @@ def inject_as_string(file, code):
             code = compress(code)
         elif file.lower().endswith('.html'):
             code = minify(code, remove_comments=True, remove_empty_space=True)
-            code = re.sub(r'(?s)<script.*>(.*?)</script>', minify_script_tag, code, flags = re.MULTILINE)            
+            code = re.sub(r'(?s)<script(.*?)>(.*?)</script>', minify_script_tag, code, flags = re.MULTILINE)
             code = re.sub(r'(?s)<style.*?>(.*?)</style>', minify_style_tag, code, flags = re.MULTILINE)            
             code = minify(code, remove_comments=True, remove_empty_space=True)
         code = stringify(code);
@@ -190,9 +194,9 @@ def server(dir):
     return process
 
 def main():    
-    #value = inject_as_string('tests/fixtures/demo.html', '')
+    #value = inject_as_string('tests/fixtures/index.html', '')
     #print("VAL: " + value)
-    #sys.exit()    
+    #sys.exit()
     watch_dir = os.getcwd()
     if len(sys.argv) > 1 and sys.argv[1]:
         watch_dir = sys.argv[1]
