@@ -44,7 +44,7 @@ from functools import partial
 hostName = "localhost"
 serverPort = 50080
 
-__version__ = '0.1.31'
+__version__ = '0.1.32'
 
 watch_ext = ('.ino', '.cpp', '.h', '.c')
 
@@ -62,6 +62,18 @@ def stringify(code):
     code = re.sub(r'\{\{[ \t]*([a-zA-Z_][a-zA-Z0-9_]+)[ \t]*\}\}', r'" + \g<1> + "', code)
     return '"' + code + '"'
 
+def minify_script_tag(lines):
+    code = jsmin(lines.group(1));
+    if code:
+        return '<script>' + code + '</script>'
+    return ''
+
+def minify_style_tag(lines):
+    code = compress(lines.group(1))    
+    if code:
+        return '<style>' + code + '</style>'
+    return '';
+
 def inject(dir, parsed_file, changed_file):
     #print("-- "+parsed_file+" - "+changed_file)
     def replace(lines):
@@ -73,10 +85,12 @@ def inject(dir, parsed_file, changed_file):
         else:
             inject_file = os.path.abspath(inject_file);
             if (parsed_file == changed_file) or (inject_file == changed_file):
-                if "String" not in inject_type or is_binary(inject_file):
+                if is_binary(inject_file):
                     code = inject_as_binary(inject_file, old_code)
-                else:
+                elif ("String" in inject_type) or ("char" in inject_type):
                     code = inject_as_string(inject_file, old_code)
+                else:
+                    code = inject_as_binary(inject_file, old_code)
                 new_code = lines.group(1) + ' ' + code + ';'        
                 if new_code != old_code:
                     log_inject(dir, inject_file)                    
@@ -95,6 +109,7 @@ def inject_as_binary(file, code):
     return code
 
 def inject_as_string(file, code):
+    #print("FILE:"+ file)
     with open(file, "r") as f:
         code = f.read()
         if file.lower().endswith('.js'):
@@ -102,6 +117,9 @@ def inject_as_string(file, code):
         elif file.lower().endswith('.css'):
             code = compress(code)
         elif file.lower().endswith('.html'):
+            code = minify(code, remove_comments=True, remove_empty_space=True)
+            code = re.sub(r'(?s)<script.*>(.*?)</script>', minify_script_tag, code, flags = re.MULTILINE)            
+            code = re.sub(r'(?s)<style.*?>(.*?)</style>', minify_style_tag, code, flags = re.MULTILINE)            
             code = minify(code, remove_comments=True, remove_empty_space=True)
         code = stringify(code);
     return code
@@ -113,7 +131,7 @@ def log_inject(dir, file):
     print('Inject: ' + os.path.relpath(file, dir))
 
 def parse(dir, parsed_file, changed_file):
-    pattern = r'(//[ \t]*@inject "([A-Za-z0-9./-_]+)"[\t ]*[\n][\t ]*([A-Za-z0-9 ]+) ([A-Za-z0-9_]+)(\[\])? =)(.*);'
+    pattern = r'(//[ \t]*@inject "([A-Za-z0-9./-_]+)"[\t ]*[\n][\t ]*([A-Za-z0-9_ ]+) ([A-Za-z0-9_]+)(\[\])?([ \t]+PROGMEM)?[ \t]*=)(.*);'
     with open(parsed_file, "r") as f:
         source = f.read()                   
         change = re.sub(pattern, inject(dir, parsed_file, changed_file), source, flags = re.MULTILINE)
@@ -148,8 +166,7 @@ async def watch(dir):
 
 def server(dir):
     def process():
-        PORT = 50080        
-        
+        PORT = 50080                
         class CustomHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
             def do_GET(self):
                 response = http.server.SimpleHTTPRequestHandler.do_GET(self)                
@@ -169,6 +186,9 @@ def server(dir):
     return process
 
 def main():    
+    #value = inject_as_string('tests/fixtures/index.html', '')
+    #print("VAL: " + value)
+    #sys.exit()    
     watch_dir = os.getcwd()
     if len(sys.argv) > 1 and sys.argv[1]:
         watch_dir = sys.argv[1]
@@ -177,9 +197,9 @@ def main():
     else:
         print("Watching for changes on: " + watch_dir + "\n")
         watch_dir = os.path.abspath(watch_dir)
-        t1 = threading.Thread(target=server(watch_dir))    
+        #t1 = threading.Thread(target=server(watch_dir))    
         try:     
-            t1.start()               
+            #t1.start()               
             asyncio.run(watch(watch_dir))                        
         except KeyboardInterrupt:                        
             sys.exit()

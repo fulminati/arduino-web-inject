@@ -13,7 +13,7 @@ bump-version:
 
 pip:
 	@pip3 install --upgrade pip setuptools wheel
-	@pip3 install tqdm
+	@pip3 install tqdm pytest
 	@pip3 install --user --upgrade twine
 
 push:
@@ -27,6 +27,9 @@ release: bump-version push
 	@python3 -m twine upload dist/*
 
 test:
+	@python3 arduino_web_inject/main.py tests/fixtures
+	
+test-fixtures:
 	@clear
 	@python3 arduino_web_inject/main.py tests/fixtures
 
@@ -41,3 +44,8 @@ test-examples:
 
 test-server:
 	@python3 arduino_web_inject/main.py examples
+
+test-minify-html:
+	@clear
+	#@pytest -s arduino_web_inject/tests/minify_html_test.py
+	@python arduino_web_inject/tests/minify_html_test.py 
