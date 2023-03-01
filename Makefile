@@ -38,3 +38,6 @@ test-not-a-dir:
 
 test-examples:
 	@python3 arduino_web_inject/main.py examples
+
+test-server:
+	@python3 arduino_web_inject/main.py examples

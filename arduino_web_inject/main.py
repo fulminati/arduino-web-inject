@@ -29,12 +29,20 @@ import glob
 import re 
 import os
 import sys
+import threading
+import http.server
+import socketserver
 
 from watchfiles import awatch
 from csscompressor import compress
 from jsmin import jsmin
 from htmlmin import minify 
 from binaryornot.check import is_binary
+from http.server import BaseHTTPRequestHandler, HTTPServer
+from functools import partial
+
+hostName = "localhost"
+serverPort = 50080
 
 __version__ = '0.1.31'
 
@@ -138,6 +146,28 @@ async def watch(dir):
     except RuntimeError:
         print("heers^")
 
+def server(dir):
+    def process():
+        PORT = 50080        
+        
+        class CustomHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
+            def do_GET(self):
+                response = http.server.SimpleHTTPRequestHandler.do_GET(self)                
+                print(response)
+                return response
+            
+        handler = partial(CustomHttpRequestHandler, directory=dir)    
+        with socketserver.TCPServer(("", PORT), handler) as httpd:
+            print("Server started at dir: " + dir)            
+            print("Server started at localhost: " + str(PORT))
+            try:     
+                httpd.serve_forever()
+            except KeyboardInterrupt:            
+                httpd.server_close()
+                #httpd.shutdown()
+                sys.exit()
+    return process
+
 def main():    
     watch_dir = os.getcwd()
     if len(sys.argv) > 1 and sys.argv[1]:
@@ -147,9 +177,11 @@ def main():
     else:
         print("Watching for changes on: " + watch_dir + "\n")
         watch_dir = os.path.abspath(watch_dir)
-        try:        
-            asyncio.run(watch(watch_dir))
-        except KeyboardInterrupt:            
+        t1 = threading.Thread(target=server(watch_dir))    
+        try:     
+            t1.start()               
+            asyncio.run(watch(watch_dir))                        
+        except KeyboardInterrupt:                        
             sys.exit()
     
 if __name__ == '__main__':
