@@ -21,6 +21,9 @@ push:
 	@git commit -am "Release"
 	@git push
 
+check: 
+	@twine check dist dist/
+
 release: bump-version push
 	@rm -rf build/ dist/ *egg* **.pyc __pycache__
 	@python3 setup.py bdist_wheel --universal
@@ -28,7 +31,7 @@ release: bump-version push
 
 test:
 	@python3 arduino_web_inject/main.py tests/fixtures
-	
+
 test-fixtures:
 	@clear
 	@python3 arduino_web_inject/main.py tests/fixtures
