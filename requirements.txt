@@ -3,3 +3,5 @@ csscompressor
 htmlmin
 binaryornot
 rjsmin
+css-html-js-minify
+slimit

@@ -44,7 +44,7 @@ from functools import partial
 hostName = "localhost"
 serverPort = 50080
 
-__version__ = '0.1.41'
+__version__ = '0.1.42'
 
 watch_ext = ('.ino', '.cpp', '.h', '.c')
 
@@ -59,11 +59,12 @@ def get_files(dir):
 
 def stringify(code):
     code = re.sub(r'"', r'\"', code)
+    code = code.replace("\n", "\\n")    
     code = re.sub(r'\{\{[ \t]*([a-zA-Z_][a-zA-Z0-9_]+)[ \t]*\}\}', r'" + \g<1> + "', code)
     return '"' + code + '"'
 
 def minify_js(code):
-    return jsmin(jsmin(code).replace("\n", ";"));
+    return jsmin(code);
 
 def minify_script_tag(lines):
     code = minify_js(lines.group(1))
@@ -189,7 +190,7 @@ def server(dir):
     return process
 
 def main():    
-    #value = inject_as_string('tests/fixtures/index.html', '')
+    #value = inject_as_string('tests/fixtures/demo.html', '')
     #print("VAL: " + value)
     #sys.exit()    
     watch_dir = os.getcwd()
