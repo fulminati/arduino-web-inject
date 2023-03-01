@@ -46,7 +46,7 @@ test-examples:
 	@python3 arduino_web_inject/main.py examples
 
 test-server:
-	@python3 arduino_web_inject/main.py examples
+	@python3 arduino_web_inject/server.py examples
 
 test-minify-html:
 	@clear

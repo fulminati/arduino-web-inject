@@ -172,27 +172,6 @@ async def watch(dir):
     except RuntimeError:
         print("heers^")
 
-def server(dir):
-    def process():
-        PORT = 50080                
-        class CustomHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
-            def do_GET(self):
-                response = http.server.SimpleHTTPRequestHandler.do_GET(self)                
-                print(response)
-                return response
-            
-        handler = partial(CustomHttpRequestHandler, directory=dir)    
-        with socketserver.TCPServer(("", PORT), handler) as httpd:
-            print("Server started at dir: " + dir)            
-            print("Server started at localhost: " + str(PORT))
-            try:     
-                httpd.serve_forever()
-            except KeyboardInterrupt:            
-                httpd.server_close()
-                #httpd.shutdown()
-                sys.exit()
-    return process
-
 def main():    
     #value = inject_as_string('tests/fixtures/index.html', '')
     #print("VAL: " + value)
