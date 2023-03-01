@@ -160,7 +160,9 @@ To modify your web files, you can use your preferred IDE such as VSCode or WebSt
 This is a list of benefit of using Arduino Web Inject:
 
 * The HTML/CSS/JS code will be minified and cleaned of comments before being loaded into Arduino. This will allow for significant space savings.
-* 
+* Develop a web application using a natural approach and a web-friendly editor.
+* Compile your web files into Arduino without relying on heavy and unnecessary filesystem libraries.
+* Organize your web application with variables populated directly from Arduino code and reusable layouts. Additionally, you can maximize the use of JavaScript and create SPAs or PWAs.
 
 ## License
 
