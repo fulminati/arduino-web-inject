@@ -44,7 +44,7 @@ from functools import partial
 hostName = "localhost"
 serverPort = 50080
 
-__version__ = '0.1.34'
+__version__ = '0.1.35'
 
 watch_ext = ('.ino', '.cpp', '.h', '.c')
 
