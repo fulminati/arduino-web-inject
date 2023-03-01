@@ -44,7 +44,7 @@ from functools import partial
 hostName = "localhost"
 serverPort = 50080
 
-__version__ = '0.1.37'
+__version__ = '0.1.38'
 
 watch_ext = ('.ino', '.cpp', '.h', '.c')
 
@@ -186,9 +186,9 @@ def server(dir):
     return process
 
 def main():    
-    #value = inject_as_string('tests/fixtures/index.html', '')
-    #print("VAL: " + value)
-    #sys.exit()    
+    value = inject_as_string('tests/fixtures/index.html', '')
+    print("VAL: " + value)
+    sys.exit()    
     watch_dir = os.getcwd()
     if len(sys.argv) > 1 and sys.argv[1]:
         watch_dir = sys.argv[1]
