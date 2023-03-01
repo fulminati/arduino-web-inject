@@ -22,7 +22,7 @@ push:
 	@git push
 
 check: 
-	@twine check dist dist/
+	@twine check dist/*
 
 release: bump-version push
 	@rm -rf build/ dist/ *egg* **.pyc __pycache__

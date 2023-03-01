@@ -5,7 +5,36 @@ from arduino_web_inject.main import __version__
 
 here = os.path.dirname(__file__)
 
-README = open(os.path.join(here, 'README.md')).read()
+README = """
+Project Name
+Welcome to Project Name! This is a Python project that does XYZ.
+
+Installation
+To install Project Name, you can use pip:
+
+Copy code
+pip install project-name
+Usage
+To use Project Name, you can import it in your Python code:
+
+python
+Copy code
+import project_name
+
+# Use project_name here
+For more details and examples, please refer to the project's documentation on GitHub.
+
+Documentation
+For detailed documentation and examples, please refer to the project's documentation on GitHub:
+
+https://github.com/your-username/project-name
+
+License
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+Thank you for using Project Name!
+"""
+
 LICENSE = open(os.path.join(here, 'LICENSE')).read()
 
 setup(
