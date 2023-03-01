@@ -6,6 +6,15 @@
 
 Arduino Web Inject fills your sketches (*.ino) files with HTML/CSS/JS code from files on your PC. This is useful to work with Web Server and create complex web app around Arduino platform.
 
+### Why I need this?
+
+This is a list of benefit of using Arduino Web Inject:
+
+* The HTML/CSS/JS code will be minified and cleaned of comments before being loaded into Arduino. This will allow for significant space savings.
+* Develop a web application using a natural approach and a web-friendly editor.
+* Compile your web files into Arduino without relying on heavy and unnecessary filesystem libraries.
+* Organize your web application with variables populated directly from Arduino code and reusable layouts. Additionally, you can maximize the use of JavaScript and create SPAs or PWAs.
+
 ## 💾 Installation
 
 Arduino Web Inject is a full-written Python project, choose your OS to for detailed installation instructions
@@ -154,15 +163,6 @@ The `@inject` comment looks for files inside your sketeches with a relative path
 ### How edit my web files?
 
 To modify your web files, you can use your preferred IDE such as VSCode or WebStorm, but also Notepad++. When our tool detects a change in your web files, it will automatically update your Arduino files.
-
-### Why I need this?
-
-This is a list of benefit of using Arduino Web Inject:
-
-* The HTML/CSS/JS code will be minified and cleaned of comments before being loaded into Arduino. This will allow for significant space savings.
-* Develop a web application using a natural approach and a web-friendly editor.
-* Compile your web files into Arduino without relying on heavy and unnecessary filesystem libraries.
-* Organize your web application with variables populated directly from Arduino code and reusable layouts. Additionally, you can maximize the use of JavaScript and create SPAs or PWAs.
 
 ## License
 
