@@ -3,3 +3,4 @@ jsmin
 csscompressor
 htmlmin
 binaryornot
+rjsmin

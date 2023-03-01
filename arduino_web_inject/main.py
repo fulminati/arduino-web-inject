@@ -32,6 +32,7 @@ import sys
 import threading
 import http.server
 import socketserver
+import rjsmin
 
 from watchfiles import awatch
 from csscompressor import compress
@@ -44,7 +45,7 @@ from functools import partial
 hostName = "localhost"
 serverPort = 50080
 
-__version__ = '0.1.38'
+__version__ = '0.1.39'
 
 watch_ext = ('.ino', '.cpp', '.h', '.c')
 
@@ -62,8 +63,11 @@ def stringify(code):
     code = re.sub(r'\{\{[ \t]*([a-zA-Z_][a-zA-Z0-9_]+)[ \t]*\}\}', r'" + \g<1> + "', code)
     return '"' + code + '"'
 
+def minify_js(code):
+    return jsmin(rjsmin.jsmin(jsmin(code).replace("\n", ";")));
+
 def minify_script_tag(lines):
-    code = jsmin(lines.group(1));
+    code = minify_js(lines.group(1))
     if code:
         return '<script>' + code + '</script>'
     return ''
@@ -113,7 +117,7 @@ def inject_as_string(file, code):
     with open(file, "r") as f:
         code = f.read()
         if file.lower().endswith('.js'):
-            code = jsmin(code)
+            code = minify_js(code)
         elif file.lower().endswith('.css'):
             code = compress(code)
         elif file.lower().endswith('.html'):

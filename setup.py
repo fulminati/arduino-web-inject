@@ -73,5 +73,6 @@ setup(
         "csscompressor",
         "htmlmin",
         "binaryornot",
+        "rjsmin"
     ]
 )
