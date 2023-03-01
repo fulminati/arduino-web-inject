@@ -32,11 +32,10 @@ import sys
 import threading
 import http.server
 import socketserver
-import rjsmin
 
 from watchfiles import awatch
 from csscompressor import compress
-from jsmin import jsmin
+from rjsmin import jsmin
 from htmlmin import minify 
 from binaryornot.check import is_binary
 from http.server import BaseHTTPRequestHandler, HTTPServer
@@ -45,7 +44,7 @@ from functools import partial
 hostName = "localhost"
 serverPort = 50080
 
-__version__ = '0.1.40'
+__version__ = '0.1.41'
 
 watch_ext = ('.ino', '.cpp', '.h', '.c')
 
@@ -64,7 +63,7 @@ def stringify(code):
     return '"' + code + '"'
 
 def minify_js(code):
-    return jsmin(rjsmin.jsmin(jsmin(code).replace("\n", ";")));
+    return jsmin(jsmin(code).replace("\n", ";"));
 
 def minify_script_tag(lines):
     code = minify_js(lines.group(1))

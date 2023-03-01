@@ -69,7 +69,6 @@ setup(
     },
     install_requires=[
         "watchfiles",
-        "jsmin",
         "csscompressor",
         "htmlmin",
         "binaryornot",
